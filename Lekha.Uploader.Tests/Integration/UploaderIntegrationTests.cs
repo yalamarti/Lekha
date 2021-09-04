@@ -91,7 +91,11 @@ namespace Lekha.Uploader.Tests.Integration
             //
             response.StatusCode.Should().Be(expectedStatusCode);
             result.Success.Should().Be(expectedStatusCode == HttpStatusCode.OK);
-            result.UploadId.Should().NotBeEmpty();
+
+            if (expectedStatusCode == HttpStatusCode.OK)
+            {
+                result.UploadId.Should().NotBeEmpty();
+            }
 
             //
             // Cleanup
@@ -145,7 +149,10 @@ namespace Lekha.Uploader.Tests.Integration
             //
             response.StatusCode.Should().Be(expectedStatusCode);
             result.Success.Should().Be(expectedStatusCode == HttpStatusCode.OK);
-            result.UploadId.Should().NotBeEmpty();
+            if (expectedStatusCode == HttpStatusCode.OK)
+            {
+                result.UploadId.Should().NotBeEmpty();
+            }
 
             //
             // Cleanup
@@ -240,7 +247,7 @@ namespace Lekha.Uploader.Tests.Integration
             //
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
             result.Success.Should().Be(false);
-            result.UploadId.Should().NotBeEmpty();
+            result.UploadId.Should().Be(Guid.Empty);
 
             //
             // Cleanup
@@ -251,6 +258,20 @@ namespace Lekha.Uploader.Tests.Integration
         public void Dispose()
         {
             _factory.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_factory != null)
+                {
+                    _factory.Dispose();
+                    _factory = null;
+                }
+            }
         }
     }
 }

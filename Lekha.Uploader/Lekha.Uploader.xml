@@ -14,6 +14,13 @@
             controller for upload large file
             </summary>
         </member>
+        <member name="M:Lekha.Uploader.Controllers.UploadController.#ctor(Lekha.Uploader.IUploadService,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="uploadService"></param>
+            <param name="configuration"></param>
+        </member>
         <member name="M:Lekha.Uploader.Controllers.UploadController.Upload(System.Int32,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
              <summary>
              Upload one or more documents 
@@ -34,6 +41,18 @@
              <returns>A newly created TodoItem</returns>
              <response code="201">Returns the newly created item</response>
              <response code="400">If the item is null</response> 
+        </member>
+        <member name="T:Lekha.Uploader.IUploadService">
+            <summary>
+            Defines Upload service operations
+            </summary>
+        </member>
+        <member name="M:Lekha.Uploader.IUploadService.Upload(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            Upload specified documents
+            </summary>
+            <param name="documents">List of documents from the HttpRequest</param>
+            <returns>A unique identifier referencing the upload request</returns>
         </member>
         <member name="T:Lekha.Uploader.Model.UploadResponse">
             <summary>

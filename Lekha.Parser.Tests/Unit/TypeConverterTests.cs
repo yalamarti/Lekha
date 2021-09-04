@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using FluentAssertions;
+using Lekha.Parser.Models;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -55,7 +56,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expected);
+                result.Should().Be(expected, $"Error in test {testDescription}");
             }
         }
 
@@ -100,7 +101,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expected);
+                result.Should().Be(expected, $"Error in test {testDescription}");
             }
         }
 
@@ -117,7 +118,7 @@ namespace Lekha.Parser.Tests.Unit
         [InlineData("10", "afsdf", FieldType.SignedNumber, true, null, true)]
         [InlineData("11", "9223372036854775808", FieldType.SignedNumber, false, null, true)]
         [InlineData("12", "-9223372036854775809", FieldType.SignedNumber, false, null, true)]
-        public void ConvertFromStringToSignedNumberTests(string testDescription, string valueToTest, string dataType, bool allowEmptyField, object? expected, bool throwsException)
+        public void ConvertFromStringToSignedNumberTests(string testDescription, string valueToTest, string dataType, bool allowEmptyField, object expected, bool throwsException)
         {
             //
             // Setup
@@ -150,7 +151,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expected);
+                result.Should().Be(expected, $"Error in test {testDescription}");
             }
         }
 
@@ -164,7 +165,7 @@ namespace Lekha.Parser.Tests.Unit
         [InlineData("6", long.MaxValue, FieldType.SignedNumber, false, "9223372036854775807", false)]
         [InlineData("7", long.MinValue, FieldType.SignedNumber, false, "-9223372036854775808", false)]
         [InlineData("8", null, FieldType.SignedNumber, true, null, false)]
-        public void ConvertToStringFromSignedNumberTests(string testDescription, object? valueToTest, string dataType, bool allowEmptyField, string expected, bool throwsException)
+        public void ConvertToStringFromSignedNumberTests(string testDescription, object valueToTest, string dataType, bool allowEmptyField, string expected, bool throwsException)
         {
             //
             // Setup
@@ -197,7 +198,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expected);
+                result.Should().Be(expected, $"Error in test {testDescription}");
             }
         }
 
@@ -217,7 +218,7 @@ namespace Lekha.Parser.Tests.Unit
         [InlineData("12", "-9223372036854775809", FieldType.UnsignedNumber, false, null, true)]
         [InlineData("13", "18446744073709551615", FieldType.UnsignedNumber, false, ulong.MaxValue, false)]  // max ulong
         [InlineData("14", "18446744073709551616", FieldType.UnsignedNumber, false, ulong.MaxValue, true)]   // max ulong plus 1
-        public void ConvertFromStringToUnsignedNumberTests(string testDescription, string valueToTest, string dataType, bool allowEmptyField, object? expected, bool throwsException)
+        public void ConvertFromStringToUnsignedNumberTests(string testDescription, string valueToTest, string dataType, bool allowEmptyField, object expected, bool throwsException)
         {
             //
             // Setup
@@ -250,7 +251,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expected);
+                result.Should().Be(expected, $"Error in test {testDescription}");
             }
         }
 
@@ -261,7 +262,7 @@ namespace Lekha.Parser.Tests.Unit
         [InlineData("4", 2147483647U, FieldType.UnsignedNumber, false, "2147483647", false)]
         [InlineData("6", ulong.MaxValue, FieldType.UnsignedNumber, false, "18446744073709551615", false)]
         [InlineData("8", null, FieldType.UnsignedNumber, true, null, false)]
-        public void ConvertToStringFromUnsignedNumberTests(string testDescription, object? valueToTest, string dataType, bool allowEmptyField, string expected, bool throwsException)
+        public void ConvertToStringFromUnsignedNumberTests(string testDescription, object valueToTest, string dataType, bool allowEmptyField, string expected, bool throwsException)
         {
             //
             // Setup
@@ -294,7 +295,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expected);
+                result.Should().Be(expected, $"Error in test {testDescription}");
             }
         }
 
@@ -329,7 +330,7 @@ namespace Lekha.Parser.Tests.Unit
         public void ConvertFromStringToDecimalTests(string testDescription, string expectedResultKey, string valueToTest, string dataType, bool allowEmptyField, bool throwsException)
         {
             // Cannot pass (compilation error) decimal as a parameter as inlinedata - so using this dictionary as a lookup with expectedResultKey
-            var expectedResult = new Dictionary<string, object?>
+            var expectedResult = new Dictionary<string, object>
             {
                 {  "1",  0.00m },
                 {  "2",  -111m },
@@ -392,7 +393,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expectedResult[expectedResultKey]);
+                result.Should().Be(expectedResult[expectedResultKey], $"Error in test {testDescription}");
             }
         }
 
@@ -477,7 +478,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expected);
+                result.Should().Be(expected, $"Error in test {testDescription}");
             }
         }
 
@@ -493,7 +494,6 @@ namespace Lekha.Parser.Tests.Unit
         [InlineData("8", "8", "21/10/2021", "dd/MM/yyyy", FieldType.Date, false, false)]
         [InlineData("9", "9", "9999/21/10", "yyyy/dd/MM", FieldType.Date, false, false)]
         [InlineData("10", "10", "2021/21", "yyyy/dd", FieldType.Date, false, false)]
-        [InlineData("11", "11", "2021/21/10", "dd/MM/yyyy", FieldType.Date, false, false)]
         [InlineData("11", "11", "2021/21/10", "dd/MM/yyyy", FieldType.Date, false, false)]
         public void ConvertFromStringToDateTests(string testDescription, string expectedResultKey, string valueToTest, string dateFormat, string dataType, bool allowEmptyField, bool throwsException)
         {
@@ -544,7 +544,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expectedResult[expectedResultKey]);
+                result.Should().Be(expectedResult[expectedResultKey], $"Error in test {testDescription}");
             }
         }
 
@@ -608,7 +608,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expectedResult);
+                result.Should().Be(expectedResult, $"Error in test {testDescription}");
             }
         }
 
@@ -678,7 +678,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expectedResult[expectedResultKey]);
+                result.Should().Be(expectedResult[expectedResultKey], $"Error in test {testDescription}");
             }
         }
 
@@ -736,7 +736,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expectedResult);
+                result.Should().Be(expectedResult, $"Error in test {testDescription}");
             }
         }
 
@@ -802,7 +802,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expectedResult[expectedResultKey]);
+                result.Should().Be(expectedResult[expectedResultKey], $"Error in test {testDescription}");
             }
         }
 
@@ -866,7 +866,7 @@ namespace Lekha.Parser.Tests.Unit
             }
             else
             {
-                result.Should().Be(expectedResult);
+                result.Should().Be(expectedResult, $"Error in test {testDescription}");
             }
         }
     }

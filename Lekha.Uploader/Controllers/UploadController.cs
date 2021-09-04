@@ -25,6 +25,11 @@ namespace Lekha.Uploader.Controllers
         private readonly IUploadService uploadService;
         private readonly IConfiguration configuration;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="uploadService"></param>
+        /// <param name="configuration"></param>
         public UploadController(IUploadService uploadService, IConfiguration configuration)
         {
             this.uploadService = uploadService;
@@ -58,12 +63,11 @@ namespace Lekha.Uploader.Controllers
         {
             var retVal = new UploadResponse
             {
-                UploadId = Guid.NewGuid()
             };
 
             if (documents == null || documents.Count == 0)
             {
-                retVal.Message = "No file is uploaded.";
+                retVal.Message = $"No file is uploaded - {id}";
                 return BadRequest(retVal);
             }
             foreach (var doc in documents)
@@ -97,8 +101,9 @@ namespace Lekha.Uploader.Controllers
                 }
             }
 
-            await uploadService.Upload(retVal.UploadId, documents);
+            var referenceId = await uploadService.Upload(documents);
 
+            retVal.UploadId = referenceId;
             retVal.Success = true;
             return Ok(retVal);
         }

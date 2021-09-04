@@ -1,6 +1,7 @@
 ﻿using CsvHelper;
 using CsvHelper.Configuration;
 using FluentAssertions;
+using Lekha.Parser.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System.Collections.Generic;
@@ -18,25 +19,6 @@ namespace Lekha.Parser.Tests.Unit
 
     public class ParsetTests
     {
-        [Theory]
-        //[InlineData("1", false, "-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,19999-12-31T23:59:59")]
-        [InlineData("1", true, "Field1,Field2,Field3,Field4,Field5,Field6,Field7\r\n-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,19999-12-31T23:59:59")]
-        public async Task ShouldReadRecordStreamWithNoHeaders(string description, bool hasHeader, string lines)
-        {
-            //
-            // Setup
-            //
-            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(lines));
-            var sut = new StreamProcessor(new NullLogger<StreamProcessor>());
-            var result = await sut.ParseAsync(stream, new FileConfiguration
-            {
-                RecordConfiguration = new RecordConfiguration
-                {
-                    Delimiter = StreamProcessor.DefaultDelimiter
-                },
-                HasHeaderRecord = hasHeader
-            });
-        }
         public class TestCase
         {
             public decimal TestCaseName { get; set; }
@@ -124,7 +106,7 @@ namespace Lekha.Parser.Tests.Unit
             var testCase = testCases.FirstOrDefault(i => i.TestCaseName == testCaseName);
             if (testCase == null)
             {
-                throw new System.Exception($"Error locating test case in test case data file {testCaseDataFile} test.  Make sure there is a test case having {testCaseName} as the TestCaseName");
+                throw new System.Exception($"Error locating test case in test case data file {testCaseDataFile} test.  Make sure there is a test case having {testCaseName} as the TestCaseName.  Test case description: {description}");
             }
             using var stream = new MemoryStream(Encoding.UTF8.GetBytes(testCase.CsvData));
             var sut = new StreamProcessor(new NullLogger<StreamProcessor>());
@@ -177,212 +159,5 @@ namespace Lekha.Parser.Tests.Unit
             }
         }
 
-        [Theory]
-        [InlineData("1", true, "Field1,Field2,Field3,Field4,Field5,Field6,Field7\r\n-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,9999/12/31 23:59:59")]
-        public async Task ShouldReadRecordStreamWithHeaders(string description, bool hasHeader, string lines)
-        {
-            //
-            // Setup
-            //
-            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(lines));
-            var sut = new StreamProcessor(new NullLogger<StreamProcessor>());
-            var result = await sut.ParseAsync(stream, new FileConfiguration
-            {
-                RecordConfiguration = new RecordConfiguration
-                {
-                    Delimiter = StreamProcessor.DefaultDelimiter,
-                    Fields = new List<FieldConfiguration>
-                    {
-                        new FieldConfiguration
-                        {
-                            Name = "Field1",
-                            DataType = FieldType.SignedNumber,
-                        },
-                        new FieldConfiguration
-                        {
-                            Name = "Field2",
-                            DataType = FieldType.UnsignedNumber,
-                        },
-                        new FieldConfiguration
-                        {
-                            Name = "Field3",
-                            DataType = FieldType.Decimal,
-                        },
-                        new FieldConfiguration
-                        {
-                            Name = "Field4",
-                            DataType = FieldType.Decimal,
-                        },
-                        new FieldConfiguration
-                        {
-                            Name = "Field5",
-                            DataType = FieldType.Date,
-                        },
-                         new FieldConfiguration
-                        {
-                            Name = "Field6",
-                            DataType = FieldType.String,
-                        },
-                         new FieldConfiguration
-                        {
-                            Name = "Field7",
-                            DataType = FieldType.Date,
-                            DateTimeFormat = "yyyy/MM/dd HH:mm:ss",
-                        },
-                    }
-                },
-                HasHeaderRecord = hasHeader
-            });
-        }
-
-        [Fact]
-        public async Task SampleJsonSerializer()
-        {
-            //
-            // Setup
-            //
-            var data = File.ReadAllText("DataFiles\\TestCase.json");
-
-            var xxx = new FileConfiguration
-            {
-                HasHeaderRecord = true,
-                RecordConfiguration = new RecordConfiguration
-                {
-                    Delimiter = StreamProcessor.DefaultDelimiter,
-                    Fields = new List<FieldConfiguration>
-                {
-                    new FieldConfiguration
-                    {
-                        Name = "Field1",
-                        DataType = FieldType.SignedNumber,
-                    },
-                    new FieldConfiguration
-                    {
-                        Name = "Field2",
-                        DataType = FieldType.UnsignedNumber,
-                    },
-                    new FieldConfiguration
-                    {
-                        Name = "Field3",
-                        DataType = FieldType.Decimal,
-                    },
-                    new FieldConfiguration
-                    {
-                        Name = "Field4",
-                        DataType = FieldType.Decimal,
-                    },
-                    new FieldConfiguration
-                    {
-                        Name = "Field5",
-                        DataType = FieldType.Date,
-                    },
-                    new FieldConfiguration
-                    {
-                        Name = "Field6",
-                        DataType = FieldType.String,
-                    },
-                    new FieldConfiguration
-                    {
-                        Name = "Field7",
-                        DataType = FieldType.Date,
-                        DateTimeFormat = "yyyy/MM/dd HH:mm:ss",
-                    },
-                }
-                },
-            };
-            var fileConfiguration = JsonSerializer.Serialize(xxx);
-            var testCases = JsonSerializer.Deserialize<List<TestCase>>(data);
-
-            var parsedRecords = new TestResult { RecordsWithDataTypeValues = new List<Dictionary<string, object>>() };
-
-            using var stream = new MemoryStream(Encoding.UTF8.GetBytes(testCases[0].CsvData));
-            var sut = new StreamProcessor(new NullLogger<StreamProcessor>());
-            var result = await sut.ParseAsync(stream, testCases[0].FileConfiguration, null,
-                 (long recordIndex, Dictionary<string, object> parsedRecord) =>
-                 {
-                     parsedRecords.RecordsWithDataTypeValues.Add(parsedRecord);
-                     return Task.CompletedTask;
-                 },
-                 (ParseError error) =>
-                 {
-                     return Task.FromResult(true);
-                 });
-            parsedRecords.RecordsWithDataTypeValues.Should().BeEquivalentTo(testCases[0].ExpectedResult.RecordsWithDataTypeValues);
-        }
-
-        public class CompanyOriginal
-        {
-            public int PrimaryKey { get; set; }
-            public int SourceId { get; set; }
-            public string SourceName { get; set; }
-            public string CompanyName { get; set; }
-            public Dictionary<string, string> Extra { get; set; }
-        }
-
-        public class CompanyMapOriginal : ClassMap<CompanyOriginal>
-        {
-            public CompanyMapOriginal(string[] additionalHeaders)
-            {
-                Map(m => m.PrimaryKey);
-                Map(m => m.SourceId);
-                Map(m => m.SourceName);
-                Map(m => m.CompanyName);
-
-                foreach (var additionalHeader in additionalHeaders)
-                {
-                    Map(m => m.Extra).Name(additionalHeader);
-                }
-            }
-        }
-
-        [Fact]
-        public void CsvDictionaryTestOriginal()
-        {
-            using (var stream = new MemoryStream())
-            using (var writer = new StreamWriter(stream))
-            using (var reader = new StreamReader(stream))
-            using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
-            {
-                writer.WriteLine("Extra0,SourceId,PrimaryKey,SourceName,CompanyName,Extra1,Extra2");
-                writer.WriteLine("Extra0.1,1,11,Item1,Company1,Extra1.1,Extra2.1");
-                writer.WriteLine("Extra0.2,2,22,Item2,Company2,Extra1.2,Extra2.2");
-                writer.Flush();
-                stream.Position = 0;
-                reader.BaseStream.Position = 0;
-
-                csv.Read();
-                csv.ReadHeader();
-                var headerRow = csv.HeaderRecord;
-
-                csv.Context.RegisterClassMap(new CompanyMapOriginal(headerRow));
-                while (csv.Read())
-                {
-                    var record = csv.GetRecord<CompanyOriginal>();
-                    // Do something with the record.
-                }
-                //var records = csv.GetRecords<Company>().ToList();
-            }
-        }
-
-        public class Company
-        {
-            public Dictionary<string, string> Extra { get; set; }
-        }
-
-        public class CompanyMap : ClassMap<Company>
-        {
-            public CompanyMap(string[] additionalHeaders)
-            {
-                foreach (var additionalHeader in additionalHeaders)
-                {
-                    Map(m => m.Extra).Name(additionalHeader);
-                }
-            }
-        }
-
-        string PrepareHeaderForMatchx(PrepareHeaderForMatchArgs args)
-        {
-            return args.Header;
-        }
     }
 }

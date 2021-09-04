@@ -12,22 +12,16 @@ using Xunit.Abstractions;
 
 namespace Lekha.Uploader.Tests.Unit
 {
-    public class BlobClientServiceTests : IDisposable
+    public class BlobClientServiceTests
     {
-        private readonly ITestOutputHelper output;
         IConfiguration configuration;
-        UploaderApplicationContext applicationContext;
-        ILogger<BlobClientService<UploadDocument>> logger;
+        readonly UploaderApplicationContext applicationContext;
+        readonly ILogger<BlobClientService<UploadDocument>> logger;
 
-        public BlobClientServiceTests(ITestOutputHelper output)
+        public BlobClientServiceTests()
         {
             applicationContext = new UploaderApplicationContext();
             logger = new NullLogger<BlobClientService<UploadDocument>>();
-            this.output = output;
-        }
-
-        public void Dispose()
-        {
         }
 
         private void SetupConfig(Dictionary<string, string> myConfiguruation)

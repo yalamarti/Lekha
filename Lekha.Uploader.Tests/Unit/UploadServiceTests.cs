@@ -16,23 +16,18 @@ using Xunit.Abstractions;
 
 namespace Lekha.Uploader.Tests.Unit
 {
-    public class UploadServiceTests : IDisposable
+    public class UploadServiceTests
     {
         private readonly ITestOutputHelper output;
         IConfiguration configuration;
-        UploaderApplicationContext applicationContext;
-        ILogger<UploadService> logger;
-        
-        Mock<IBlobClientService<UploadDocument>> mockBlobClientService = new Mock<IBlobClientService<UploadDocument>>();
+        readonly UploaderApplicationContext applicationContext;
+        readonly ILogger<UploadService> logger;
+        readonly Mock<IBlobClientService<UploadDocument>> mockBlobClientService = new();
         public UploadServiceTests(ITestOutputHelper output)
         {
             applicationContext = new UploaderApplicationContext();
             logger = new NullLogger<UploadService>();
             this.output = output;
-        }
-
-        public void Dispose()
-        {
         }
 
         private void SetupConfig(string containerName)
@@ -65,7 +60,7 @@ namespace Lekha.Uploader.Tests.Unit
             mockBlobClientService.Setup(i => i.Upload(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>()))
                 .Returns(async (string containerName, string blobName, Stream stream) =>
                 {
-                    Random r = new Random();
+                    var r = new Random();
                     int rInt = r.Next(500, 1500);
                     await Task.Delay(rInt);
                     output.WriteLine($"I was here: {rInt} {DateTime.Now.Ticks}");
@@ -83,7 +78,7 @@ namespace Lekha.Uploader.Tests.Unit
             {
                 list.Add(new Mock<IFormFile>().Object);
             }
-            await uploadService.Upload(Guid.NewGuid(), list);
+            await uploadService.Upload(list);
 
             //
             // Assert
@@ -105,7 +100,7 @@ namespace Lekha.Uploader.Tests.Unit
             mockBlobClientService.Setup(i => i.Upload(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>()))
                 .Returns(async (string containerName, string blobName, Stream stream) =>
                 {
-                    Random r = new Random();
+                    var r = new Random();
                     int rInt = r.Next(500, 1500);
                     await Task.Delay(rInt);
                     output.WriteLine($"I was here: {rInt} {DateTime.Now.Ticks}");
@@ -126,7 +121,7 @@ namespace Lekha.Uploader.Tests.Unit
             }
 
             var exception = await Record.ExceptionAsync(async () =>
-               await uploadService.Upload(Guid.NewGuid(), list));
+               await uploadService.Upload(list));
 
             //
             // Assert
@@ -150,14 +145,14 @@ namespace Lekha.Uploader.Tests.Unit
             // Act
             //
             var exception = await Record.ExceptionAsync(async () =>
-               await uploadService.Upload(Guid.NewGuid(), new List<IFormFile> { new Mock<IFormFile>().Object }));
+               await uploadService.Upload(new List<IFormFile> { new Mock<IFormFile>().Object }));
 
             //
             // Assert
             //
             mockBlobClientService.Verify(i => i.Upload(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<Stream>()), Times.Never);
             Assert.NotNull(exception);
-            Assert.IsType<ArgumentNullException>(exception);
+            Assert.IsType<Exception>(exception);
         }
 
     }

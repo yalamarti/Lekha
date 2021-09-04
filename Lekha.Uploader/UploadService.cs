@@ -1,5 +1,4 @@
-﻿using Azure.Storage.Blobs;
-using Lekha.Infrastructure;
+﻿using Lekha.Infrastructure;
 using Lekha.Uploader.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -16,7 +15,6 @@ namespace Lekha.Uploader
         private readonly IBlobClientService<UploadDocument> blobClientService;
         private readonly IConfiguration configuration;
         private readonly ILogger<UploadService> logger;
-        BlobContainerClient blobContainerClient;
         public UploadService(UploaderApplicationContext appContext, IBlobClientService<UploadDocument> blobClientService, IConfiguration configuration, ILogger<UploadService> logger)
         {
             this.appContext = appContext;
@@ -25,9 +23,11 @@ namespace Lekha.Uploader
             this.logger = logger;
         }
 
-        public async Task Upload(Guid uploadId, List<IFormFile> documents)
+        public async Task<Guid> Upload(List<IFormFile> documents)
         {
-            List<Task> tasks = new List<Task>();
+            var uploadId = Guid.NewGuid();
+
+            var tasks = new List<Task>();
 
             logger.LogInformation("{Application}/{Service}/{ServiceLevel2}: Uploading {BlobCountToUpload} to blob container for upload with ID {uploadId}",
                 appContext.AppName, appContext.Service, nameof(UploadService), documents.Count, uploadId);
@@ -36,7 +36,7 @@ namespace Lekha.Uploader
             string containerName = configuration[DocumentStorageContainer];
             if (string.IsNullOrWhiteSpace(containerName))
             {
-                throw new ArgumentNullException($"{DocumentStorageContainer} - Document Container configuration is required!");
+                throw new Exception($"{DocumentStorageContainer} - Document Container configuration is required!");
             }
 
             foreach (var doc in documents)
@@ -59,7 +59,7 @@ namespace Lekha.Uploader
                     }
                     catch (Exception ex)
                     {
-                        throw new ServiceException($"Error processing uploading of the file {doc.FileName}", new { FileName = doc.FileName, UploadId = uploadId }, ex);
+                        throw new ServiceException($"Error processing uploading of the file {doc.FileName}", new { doc.FileName, UploadId = uploadId }, ex);
                     }
                 }));
             }
@@ -81,6 +81,8 @@ namespace Lekha.Uploader
 
             logger.LogInformation("{Application}/{Service}/{ServiceLevel2}: Uploaded {BlobCountToUpload} to blob container for upload with ID {uploadId}",
                 appContext.AppName, appContext.Service, nameof(UploadService), documents.Count, uploadId);
+
+            return uploadId;
         }
     }
 }

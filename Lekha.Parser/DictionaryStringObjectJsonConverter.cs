@@ -171,7 +171,7 @@ namespace Lekha.Parser
 
     public class ItemListConverter<ItemConverter, T> : JsonConverter<List<T>>  where T : class where ItemConverter : JsonConverter<T>, new()
     {
-        ItemConverter itemConverter = new ItemConverter();
+        readonly ItemConverter itemConverter = new();
 
         public override List<T> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -196,13 +196,11 @@ namespace Lekha.Parser
 
         private T ExtractValue(ref Utf8JsonReader reader, JsonSerializerOptions options)
         {
-            switch (reader.TokenType)
+            return reader.TokenType switch
             {
-                case JsonTokenType.StartObject:
-                    return itemConverter.Read(ref reader, null, options);
-                default:
-                    throw new JsonException($"'{reader.TokenType}' is not supported");
-            }
+                JsonTokenType.StartObject => itemConverter.Read(ref reader, null, options),
+                _ => throw new JsonException($"'{reader.TokenType}' is not supported"),
+            };
         }
 
         public override void Write(Utf8JsonWriter writer, List<T> values, JsonSerializerOptions options)
