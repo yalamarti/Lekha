@@ -1,0 +1,2 @@
+CsvHelper: https://joshclose.github.io/CsvHelper/
+FluentValidation: https://github.com/FluentValidation/FluentValidation

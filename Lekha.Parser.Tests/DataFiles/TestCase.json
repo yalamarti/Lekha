@@ -1,0 +1,1882 @@
+﻿[
+
+  {
+    "TestCaseName": 2.001,
+    "Description": "Should parse a single record successfully, detecting comma as delimiter,  with no header and no field configuration specified",
+    "CsvData": "-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,9999/12/31 23:59:59",
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "0.999999999999999999999999999",
+          "Field5": "2021/10/10",
+          "Field6": "This is a string field",
+          "Field7": "9999/12/31 23:59:59"
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 1
+    }
+  },
+
+  {
+    "TestCaseName": 2.002,
+    "Description": "Should parse a single record, with single field successfully, detecting comma as delimiter, with no header and no field configuration specified",
+    "CsvData": "-9393",
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": "-9393"
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 1
+    }
+  },
+
+  {
+    "TestCaseName": 2.003,
+    "Description": "Should parse a multiple records, with single field successfully, detecting comma as delimiter,  with no header and no field configuration specified",
+    "CsvData": "-9393\r\naaa\r\nbbb",
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": "-9393"
+        },
+        {
+          "Field1": "aaa"
+        },
+        {
+          "Field1": "bbb"
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 3
+    }
+  },
+
+  {
+    "TestCaseName": 3,
+    "Description": "Should parse a single record successfully with header and field configuration specified",
+    "CsvData": "Field1,Field2,Field3,Field4,Field5,Field6,Field7\r\n-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,9999/12/31 23:59:59",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field4",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field5",
+            "DataType": "date"
+          },
+          {
+            "Name": "Field6",
+            "DataType": "string"
+          },
+          {
+            "Name": "Field7",
+            "DataType": "date",
+            "DateTimeFormat": "yyyy/MM/dd HH:mm:ss"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 9393,
+          "Field3": -0.999999999999999999999999999,
+          "Field4": 0.999999999999999999999999999,
+          "Field5": "2021-10-10T00:00:00+00:00",
+          "Field6": "This is a string field",
+          "Field7": "9999-12-31T23:59:59+00:00"
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 1
+    }
+  },
+
+  {
+    "TestCaseName": 4,
+    "Description": "Should parse a single record successfully with no header and but a field configuration specified",
+    "CsvData": "-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,9999/12/31 23:59:59",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field4",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field5",
+            "DataType": "date"
+          },
+          {
+            "Name": "Field6",
+            "DataType": "string"
+          },
+          {
+            "Name": "Field7",
+            "DataType": "date",
+            "DateTimeFormat": "yyyy/MM/dd HH:mm:ss"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 9393,
+          "Field3": -0.999999999999999999999999999,
+          "Field4": 0.999999999999999999999999999,
+          "Field5": "2021-10-10T00:00:00+00:00",
+          "Field6": "This is a string field",
+          "Field7": "9999-12-31T23:59:59+00:00"
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 1
+    }
+
+  },
+
+  {
+    "TestCaseName": 5,
+    "Description": "Should parse successfully two records, and detect all fields as 'string' datatype with header specified but no field configuration specified",
+    "CsvData": "Field1,Field2,Field3,Field4,Field5,Field6,Field7\r\n-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,9999/12/31 23:59:59\r\n-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,9999/12/31 23:59:59",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ","
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "0.999999999999999999999999999",
+          "Field5": "2021/10/10",
+          "Field6": "This is a string field",
+          "Field7": "9999/12/31 23:59:59"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "0.999999999999999999999999999",
+          "Field5": "2021/10/10",
+          "Field6": "This is a string field",
+          "Field7": "9999/12/31 23:59:59"
+        }
+      ],
+      "ProcessedRecordCount": 2
+    }
+  },
+
+  {
+    "TestCaseName": 6,
+    "Description": "Should parse a single record successfully and detect all fields as 'string' datatype with header specified but no field configuration specified",
+    "CsvData": "Field1,Field2,Field3,Field4,Field5,Field6,Field7\r\n-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,9999/12/31 23:59:59",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ","
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "0.999999999999999999999999999",
+          "Field5": "2021/10/10",
+          "Field6": "This is a string field",
+          "Field7": "9999/12/31 23:59:59"
+        }
+      ],
+      "ProcessedRecordCount": 1
+    }
+  },
+
+  {
+    "TestCaseName": 7,
+    "Description": "Should parse successfully two records, skip additional field and detect all fields as 'string' datatype with header specified but no field configuration specified",
+    "CsvData": "Field1,Field2,Field3,Field4\r\n-9393,9393,-0.999999999999999999999999999,Ignore this field1\r\n-9393,9393,-0.999999999999999999999999999,Ignore this field2",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          },
+          {
+            "Name": "Field3"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999"
+        }
+      ],
+      "ProcessedRecordCount": 2
+    }
+  },
+
+  {
+    "TestCaseName": 8,
+    "Description": "Should return and process no records, when data is empty",
+    "CsvData": "",
+
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "Message": "No records processed"
+    }
+
+  },
+
+  {
+    "TestCaseName": 8.001,
+    "Description": "Should parse successfully header specified, but no field configuration is specified, and process empty records, when data is empty",
+    "CsvData": "",
+    "FileConfiguration": {
+      "HasHeaderRecord": true
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "Message": "No records processed"
+    }
+
+  },
+
+
+  {
+    "TestCaseName": 8.002,
+    "Description": "Should parse successfully when no header specified, but a field configuration is specified, and process empty records, when blank lines specified",
+    "CsvData": "         \r\n         \r\n",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          },
+          {
+            "Name": "Field3"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          },
+          {
+            "Name": "Field6"
+          },
+          {
+            "Name": "Field7"
+          }
+        ]
+      }
+    },
+
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+      ],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "         "
+        },
+        {
+          "Field1": "         "
+        }
+      ],
+      "ProcessedRecordCount": 2
+    }
+
+  },
+
+
+  {
+    "TestCaseName": 8.003,
+    "Description": "Should parse successfully header specified, and field configuration is specified, and process empty records, when data is empty",
+    "CsvData": "",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          },
+          {
+            "Name": "Field3"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          },
+          {
+            "Name": "Field6"
+          },
+          {
+            "Name": "Field7"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "Message": "No records processed"
+    }
+
+  },
+
+
+
+  {
+    "TestCaseName": 8.004,
+    "Description": "Should parse successfully header specified, and field configuration is specified, and process empty records, when data is blank",
+    "CsvData": "      ",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          },
+          {
+            "Name": "Field3"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          },
+          {
+            "Name": "Field6"
+          },
+          {
+            "Name": "Field7"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "Message": "No records processed"
+    }
+
+  },
+
+
+  {
+    "TestCaseName": 9,
+    "Description": "Should parse successfully two records, skip additional middle field in header and records and detect all fields as 'string' datatype with header specified but no field configuration specified",
+    "CsvData": "Field1,Field2,Field4,Field3\r\n-9393,9393,Ignore this field41,-0.999999999999999999999999999\r\n-9393,9393,Ignore this field42,-0.999999999999999999999999999",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          },
+          {
+            "Name": "Field3"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999"
+        }
+      ],
+      "ProcessedRecordCount": 2
+    }
+  },
+
+  {
+    "TestCaseName": 10,
+    "Description": "Should parse and default to a 'string' data type, when no datatype is specified as part of a field configuration",
+    "CsvData": "-9393,9393,-0.999999999999999999999999999,0.999999999999999999999999999,2021/10/10,This is a string field,9999/12/31 23:59:59",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "CommentCharacter": null,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          },
+          {
+            "Name": "Field3"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          },
+          {
+            "Name": "Field6"
+          },
+          {
+            "Name": "Field7"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "0.999999999999999999999999999",
+          "Field5": "2021/10/10",
+          "Field6": "This is a string field",
+          "Field7": "9999/12/31 23:59:59"
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 1
+    }
+
+  },
+
+  {
+    "TestCaseName": 11.001,
+    "Description": "Should parse successfully two records, skip additional field, detect and skip first-line comment line, and detect all fields as 'string' datatype with header specified but no field configuration specified",
+    "CsvData": "Field1,Field2,Field3,Field4\r\n# I am a comment line\r\n-9393,9393,-0.999999999999999999999999999,Ignore this field1\r\n-9393,9393,-0.999999999999999999999999999,Ignore this field2",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": "#",
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          },
+          {
+            "Name": "Field3"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999"
+        }
+      ],
+      "ProcessedRecordCount": 2
+    }
+  },
+
+  {
+    "TestCaseName": 11.002,
+    "Description": "Should parse successfully two records, skip additional field, detect and non-first-line skip comment line, and detect all fields as 'string' datatype with header specified but no field configuration specified",
+    "CsvData": "Field1,Field2,Field3,Field4\r\n-9393,9393,-0.999999999999999999999999999,Ignore this field1\r\n# I am a comment line\r\n-9393,9393,-0.999999999999999999999999999,Ignore this field2",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": "#",
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          },
+          {
+            "Name": "Field3"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "9393",
+          "Field3": "-0.999999999999999999999999999"
+        }
+      ],
+      "ProcessedRecordCount": 2
+    }
+  },
+
+  {
+    "TestCaseName": 12.001,
+    "Description": "Should parse successfully two records, detect quoted fields, detect and skip comment line, and detect all fields as 'string' datatype with header specified and field configuration specified",
+    "CsvData": "\"Field1\",\"Field2\"\r\n\"-9393\",\"aaa\"\r\n# I am a comment line\r\n\"-9393\",\"Another field\"",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": "#",
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1"
+          },
+          {
+            "Name": "Field2"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "aaa"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "Another field"
+        }
+      ],
+      "ProcessedRecordCount": 2
+    }
+  },
+
+  {
+    "TestCaseName": 12.002,
+    "Description": "Should parse successfully two records, detect quoted fields, detect and skip comment line, detect default separator as 'comma' and detect all fields' datatypes with header specified and field configuration specified",
+    "CsvData": "\"Field1\",\"Field2\"\r\n\"-9393\",\"aaa\"\r\n# I am a comment line\r\n\"-9393\",\"Another field\"",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "CommentCharacter": "#",
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "Success": true,
+      "RecordsWithStringValues": [],
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": "aaa"
+        },
+
+        {
+          "Field1": -9393,
+          "Field2": "Another field"
+        }
+      ],
+      "ProcessedRecordCount": 2
+    }
+  },
+
+
+  {
+    "TestCaseName": 13.001,
+    "Description": "Should fail parsing a single record  with header and field configuration specified and a mismatching data type in one of the fields",
+    "CsvData": "Field1,Field2,Field3\r\n-9393,badnumber,-0.999999999999999999999999999",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 1,
+      "ErrorRecordCount": 1,
+      "Success": false
+    }
+  },
+
+  {
+    "TestCaseName": 13.002,
+    "Description": "Should fail parsing a single record  with header and field configuration specified and a missing a 'required' field in the header",
+    "CsvData": "Field1,FieldBad,Field3\r\n-9393,123,-0.999999999999999999999999999",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "unsigned-number",
+            "Required": true
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "Field(s) 'Field2' specified in Record Configuration but are missing in the header data"
+    }
+  },
+
+  {
+    "TestCaseName": 13.003,
+    "Description": "Should parse successfully a single record  with header and field configuration specified and a missing a 'optional' field in the header",
+    "CsvData": "Field1,FieldBad,Field3\r\n-9393,123,-0.999999999999999999999999999",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number",
+            "Required": true
+          },
+          {
+            "Name": "Field2",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal",
+            "Required": true
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field3": -0.999999999999999999999999999
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 1,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 13.004,
+    "Description": "Should parse successfully a single record  with header and field configuration and additional field values in the rows with no corresponding header",
+    "CsvData": "Field1,Field2,Field3\r\n-9393,123,-0.999999999999999999999999999",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number",
+            "Required": true
+          },
+          {
+            "Name": "Field2",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal",
+            "Required": true
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 1,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 13.005,
+    "Description": "Should parse successfully a multiple records  with header and field configuration and additional field values in the rows with no corresponding header and additional values in records",
+    "CsvData": "Field1,Field2,Field3\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number",
+            "Required": true
+          },
+          {
+            "Name": "Field2",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal",
+            "Required": true
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 2,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 13.006,
+    "Description": "Should parse successfully a multiple records  with no header but field configuration specified, and additional values in records",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,this is additional field, onemore\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore",
+    "FileConfiguration": {
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 2,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 13.007,
+    "Description": "Should parse successfully a multiple records  with header and field configuration and, header having leading and trailing spaces in the name",
+    "CsvData": " Field 1,   Field 2 ,Field 3\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field 1",
+            "DataType": "number",
+            "Required": true
+          },
+          {
+            "Name": "Field 2",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field 3",
+            "DataType": "decimal",
+            "Required": true
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field 1": -9393,
+          "Field 2": 123,
+          "Field 3": -0.999999999999999999999999999
+        },
+        {
+          "Field 1": -9393,
+          "Field 2": 123,
+          "Field 3": -0.999999999999999999999999999
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 2,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 13.008,
+    "Description": "Should parse successfully a multiple records  with header and field configuration and, header and field configuration having leading and trailing spaces in the name",
+    "CsvData": " Field 1,   Field 2 , Field 3\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field 1",
+            "DataType": "number",
+            "Required": true
+          },
+          {
+            "Name": "               Field 2                 ",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field 3                ",
+            "DataType": "decimal",
+            "Required": true
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field 1": -9393,
+          "               Field 2                 ": 123,
+          "Field 3                ": -0.999999999999999999999999999
+        },
+        {
+          "Field 1": -9393,
+          "               Field 2                 ": 123,
+          "Field 3                ": -0.999999999999999999999999999
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 2,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 13.009,
+    "Description": "Should parse successfully a multiple records  with header and field configuration and, header and field configuration having leading and trailing spaces in the name, and names differ in case sensitivity",
+    "CsvData": " field 1,   Field 2 , field 3\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field 1",
+            "DataType": "number",
+            "Required": true
+          },
+          {
+            "Name": "   Field 2 ",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "Field 3 ",
+            "DataType": "decimal",
+            "Required": true
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field 1": -9393,
+          "   Field 2 ": 123,
+          "Field 3 ": -0.999999999999999999999999999
+        },
+        {
+          "Field 1": -9393,
+          "   Field 2 ": 123,
+          "Field 3 ": -0.999999999999999999999999999
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 2,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 13.010,
+    "Description": "Should parse successfully a multiple records  with header and field configuration and, header and field configuration having leading and trailing spaces in the name, and names differ in case sensitivity 2",
+    "CsvData": " field 1,   Field 2 , Field 3\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore\r\n-9393,123,-0.999999999999999999999999999,this is additional field, onemore",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field 1",
+            "DataType": "number",
+            "Required": true
+          },
+          {
+            "Name": "   field 2 ",
+            "DataType": "unsigned-number"
+          },
+          {
+            "Name": "field 3 ",
+            "DataType": "decimal",
+            "Required": true
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field 1": -9393,
+          "   field 2 ": 123,
+          "field 3 ": -0.999999999999999999999999999
+        },
+        {
+          "Field 1": -9393,
+          "   field 2 ": 123,
+          "field 3 ": -0.999999999999999999999999999
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 2,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.000,
+    "Description": "Should parse successfully when no header and field configuration specified, and some records have missing values for optional fields",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,-0.999999999999999999999999999,John Doe2 missing address field",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "John Doe2 missing address field"
+        }
+      ],
+      "ProcessedRecordCount": 2,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.001,
+    "Description": "Should parse successfully when no header and field configuration specified, and some records have empty values for optional fields",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "",
+          "Field4": "John Doe2 missing address field"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "",
+          "Field4": ""
+        }
+      ],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.001,
+    "Description": "Should parse successfully when no header and field configuration specified, and some records have empty values for optional fields",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "",
+          "Field4": "John Doe2 missing address field"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "",
+          "Field4": ""
+        }
+      ],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.002,
+    "Description": "Should parse successfully when no field configuration specified, but a header is specified, and some records have empty values for optional fields",
+    "CsvData": "Field1,Field2,Field3,Field4,Field5\r\n-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "",
+          "Field4": "John Doe2 missing address field"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "",
+          "Field4": ""
+        }
+      ],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.003,
+    "Description": "Should parse successfully when no field configuration specified, but a header is specified, and some records have empty values for optional fields",
+    "CsvData": "Field1,Field2,Field3,Field4,Field5\r\n-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "-0.999999999999999999999999999",
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "",
+          "Field4": "John Doe2 missing address field"
+        },
+        {
+          "Field1": "-9393",
+          "Field2": "123",
+          "Field3": "",
+          "Field4": ""
+        }
+      ],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.004,
+    "Description": "Should parse successfully when no header specified, but a field configuration is specified, and some records have empty values for optional fields",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999,
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field4": "John Doe2 missing address field"
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field4": ""
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.005,
+    "Description": "Should parse successfully when no header specified, but a field configuration is specified, and some records have empty values for optional fields",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999,
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field4": "John Doe2 missing address field"
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field4": ""
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.006,
+    "Description": "Should parse successfully when no header specified, but a field configuration is specified, and some records have empty values for optional fields",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999,
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field4": "John Doe2 missing address field"
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field4": ""
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.007,
+    "Description": "Should parse successfully when both header and field configuration is specified, and some records have empty values for optional fields",
+    "CsvData": "Field1,Field2,Field3,Field4,Field5\r\n-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999,
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field4": "John Doe2 missing address field"
+        },
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field4": ""
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 0,
+      "Success": true
+    }
+  },
+
+  {
+    "TestCaseName": 14.008,
+    "Description": "Should fail parsing when no header specified, but a field configuration is specified, and some records have empty values for required fields",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal",
+            "Required": true
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "Field(s) 'Field3' are configured as 'Required'.  'Required' fields are supported only when the 'HasHeaderRecord' is set to true and the data file has a header record."
+    }
+  },
+
+  {
+    "TestCaseName": 14.009,
+    "Description": "Should fail parsing when both header and field configuration is specified, and some records have empty values for required fields",
+    "CsvData": "Field1,Field2,Field3,Field4,Field5\r\n-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal",
+            "Required": true
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [
+        {
+          "Field1": -9393,
+          "Field2": 123,
+          "Field3": -0.999999999999999999999999999,
+          "Field4": "John Doe1",
+          "Field5": "And this is my address1"
+        }
+      ],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 3,
+      "ErrorRecordCount": 2,
+      "Success": false
+    }
+  },
+
+  {
+    "TestCaseName": 15,
+    "Description": "Should fail parsing when header but no field configuration is specified, and a header field name is missing",
+    "CsvData": "Field1,Field2, ,Field4,Field5\r\n-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ","
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "Header - field with no name specified found!  When one or more fields are specified, Field Name is required for every field!"
+    }
+  },
+
+  {
+    "TestCaseName": 15.1,
+    "Description": "Should fail parsing when header but no field configuration is specified, and the same header field is specified more than once",
+    "CsvData": "Field1,Field2,Field3,Field4,Field1\r\n-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ","
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "Header - field with same name(s) 'field1' appears more than once"
+    }
+  },
+
+  {
+    "TestCaseName": 15.2,
+    "Description": "Should fail parsing when header but no field configuration is specified, and the same header field is specified more than once, case insensitive",
+    "CsvData": "   field1,   Field2,Field3,Field4, Field1\r\n-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ","
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "Header - field with same name(s) 'field1' appears more than once"
+    }
+  },
+  {
+    "TestCaseName": 15.3,
+    "Description": "Should fail parsing when no header specified, but field configuration is specified, and the same header field is specified more than once",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "Field1",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "Field4"
+          },
+          {
+            "Name": "Field2"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "File Record Configuration - field with same name(s) 'field2' appears more than once"
+    }
+  },
+
+  {
+    "TestCaseName": 15.4,
+    "Description": "Should fail parsing when no header specified, but field configuration is specified, and the same header field is specified more than once, case insensitive",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "  Field1  ",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": "field1 "
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "File Record Configuration - field with same name(s) 'field1' appears more than once"
+    }
+  },
+
+  {
+    "TestCaseName": 15.5,
+    "Description": "Should fail parsing when no header specified, but field configuration is specified, and has a missing field name",
+    "CsvData": "-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": false,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "  Field1  ",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal"
+          },
+          {
+            "Name": " "
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "File Record Configuration - field with no name specified found!  When one or more fields are specified, Field Name is required for every field!"
+    }
+  },
+
+  {
+    "TestCaseName": 15.6,
+    "Description": "Should fail parsing when header and field configuration are specified, and missing required fields in the header",
+    "CsvData": "Field1,Field2,Field5-9393,123,-0.999999999999999999999999999,John Doe1,And this is my address1\r\n-9393,123,,John Doe2 missing address field\r\n-9393,123,,",
+    "FileConfiguration": {
+      "HasHeaderRecord": true,
+      "RecordConfiguration": {
+        "Delimiter": ",",
+        "Fields": [
+          {
+            "Name": "  Field1  ",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field2",
+            "DataType": "number"
+          },
+          {
+            "Name": "Field3",
+            "DataType": "decimal",
+            "Required": true
+          },
+          {
+            "Name": "Field4",
+            "Required": true
+          },
+          {
+            "Name": "Field5"
+          }
+        ]
+      }
+    },
+    "ExpectedResult": {
+      "RecordsWithDataTypeValues": [],
+      "RecordsWithStringValues": [],
+      "ProcessedRecordCount": 0,
+      "ErrorRecordCount": 0,
+      "Success": false,
+      "Message": "Field(s) 'Field3,Field4' specified in Record Configuration but are missing in the header data"
+    }
+  }
+
+]

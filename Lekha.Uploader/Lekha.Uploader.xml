@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Lekha.Uploader</name>
+    </assembly>
+    <members>
+        <member name="T:Lekha.Uploader.ActionFilter.HttpResponseExceptionFilter">
+            <summary>
+            Reference: https://docs.microsoft.com/en-us/aspnet/core/web-api/handle-errors?view=aspnetcore-5.0
+            </summary>
+        </member>
+        <member name="T:Lekha.Uploader.Controllers.UploadController">
+            <summary>
+            controller for upload large file
+            </summary>
+        </member>
+        <member name="M:Lekha.Uploader.Controllers.UploadController.Upload(System.Int32,System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+             <summary>
+             Upload one or more documents 
+             </summary>
+             <remarks>
+             Sample request:
+            
+                 POST /111/upload
+                 {
+                    "id": 1,
+                    "name": "Item1",
+                    "isComplete": true
+                 }
+            
+             </remarks>
+             <param name="id"></param>
+             <param name="documents"></param>
+             <returns>A newly created TodoItem</returns>
+             <response code="201">Returns the newly created item</response>
+             <response code="400">If the item is null</response> 
+        </member>
+        <member name="T:Lekha.Uploader.Model.UploadResponse">
+            <summary>
+            Represents result of an upload request
+            </summary>
+        </member>
+        <member name="P:Lekha.Uploader.Model.UploadResponse.Success">
+            <summary>
+            Request processed successfully
+            </summary>
+        </member>
+        <member name="P:Lekha.Uploader.Model.UploadResponse.UploadId">
+            <summary>
+            ID of the upload request
+            </summary>
+        </member>
+        <member name="P:Lekha.Uploader.Model.UploadResponse.Message">
+            <summary>
+            Message representing the result of upload operation
+            </summary>
+        </member>
+        <member name="P:Lekha.Uploader.Model.UploadResponse.FileName">
+            <summary>
+            Name of file being uploaded
+            </summary>
+        </member>
+        <member name="P:Lekha.Uploader.Model.UploadResponse.PermittedExtensions">
+            <summary>
+            Extensions of filenames that are permitted to be uploaded
+            </summary>
+        </member>
+    </members>
+</doc>
