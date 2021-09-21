@@ -44,13 +44,13 @@ namespace Lekha.Uploader
                 {
                     Version = "v1",
                     Title = "Lekha Uploader API",
-                    Description = "API providing functionality for uploading documents related to Lekha application",
-                    TermsOfService = new Uri("https://example.com/terms"),
+                    Description = "API providing functionality for uploading documents",
+                    TermsOfService = new Uri("https://github.com/yalamarti/Lekha"),
                     Contact = new OpenApiContact
                     {
-                        Name = "Syfam, LLC",
+                        Name = "Lekha on github",
                         Email = string.Empty,
-                        Url = new Uri("https://syfamllc.com/support"),
+                        Url = new Uri("https://github.com/yalamarti/Lekha/issues"),
                     }
                 });
                 // Set the comments path for the Swagger JSON and UI.
