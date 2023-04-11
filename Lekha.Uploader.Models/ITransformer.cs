@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Lekha.Uploader.Model
+namespace Lekha.Uploader.Models
 {
     public interface ITransformer
     {

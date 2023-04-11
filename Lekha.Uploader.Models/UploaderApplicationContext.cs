@@ -1,6 +1,6 @@
 ﻿using Lekha.Models;
 
-namespace Lekha.Uploader.Model
+namespace Lekha.Uploader.Models
 {
     public class UploaderApplicationContext : ApplicationContext
     {

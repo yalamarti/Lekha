@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lekha.Uploader.Model
+namespace Lekha.Uploader.Models
 {
     /// <summary>
     /// Represents result of an upload request
@@ -20,16 +20,16 @@ namespace Lekha.Uploader.Model
         /// <summary>
         /// Message representing the result of upload operation
         /// </summary>
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Name of file being uploaded
         /// </summary>
-        public string FileName { get; set; }
+        public string? FileName { get; set; }
 
         /// <summary>
         /// Extensions of filenames that are permitted to be uploaded
         /// </summary>
-        public string PermittedExtensions { get; set; }
+        public string? PermittedExtensions { get; set; }
     }
 }

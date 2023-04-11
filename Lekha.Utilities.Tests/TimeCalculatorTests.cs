@@ -24,10 +24,9 @@ namespace Lekha.Utilities.Tests
             var begin = new DateTimeOffset(beginYear, beginMonth, beginDay, 0, 0, 0, TimeSpan.FromSeconds(0));
             var end = new DateTimeOffset(endYear, endMonth, endDay, 0, 0, 0, TimeSpan.FromSeconds(0));
             var calculator = new TimeCalculator();
-            string slotId = null;
-            var matchingTime = calculator.IsMatchingTime(moment, begin, end, null, out slotId);
+            var matchingTime = calculator.IsMatchingTime(moment, begin, end, null, out _);
 
-            matchingTime.Should().Be(shouldMatch);
+            matchingTime.Should().Be(shouldMatch, because: $"{id} test case said so");
         }
 
         [Theory]
@@ -50,7 +49,7 @@ namespace Lekha.Utilities.Tests
             string slotId = null;
             var matchingTime = calculator.IsMatchingTime(moment, begin, end, null, out slotId);
 
-            matchingTime.Should().Be(shouldMatch);
+            matchingTime.Should().Be(shouldMatch, because: $"{id} test case said so");
         }
 
         [Theory]
@@ -183,7 +182,7 @@ namespace Lekha.Utilities.Tests
             var matchingTime = calculator.IsMatchingTime(moment, begin, end, slots, out slotId);
 
             matchingTime.Should().Be(shouldMatch);
-            slotId.Should().Be(expectedSlotId);
+            slotId.Should().Be(expectedSlotId, because: $"{id} test case said so");
         }
     }
 }

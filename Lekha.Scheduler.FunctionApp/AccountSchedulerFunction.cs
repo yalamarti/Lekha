@@ -14,7 +14,7 @@ namespace Lekha.Scheduler.FunctionApp
         private readonly AccountScheduler accountScheduler;
         private readonly AccountMessageConsumer accountMessageConsumer;
 
-        public AccountSchedulerFunction(AccountScheduler accountScheduler)
+        public AccountSchedulerFunction(AccountScheduler accountScheduler, AccountMessageConsumer accountMessageConsumer)
         {
             this.accountScheduler = accountScheduler;
             this.accountMessageConsumer = accountMessageConsumer;

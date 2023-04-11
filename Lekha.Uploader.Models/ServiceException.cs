@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net;
 
-namespace Lekha.Uploader.Model
+namespace Lekha.Uploader.Models
 {
     public class ServiceException : Exception
     {
         public int Status { get; set; } = (int)HttpStatusCode.InternalServerError;
-        public object Value { get; set; }
+        public object? Value { get; set; }
         public ServiceException(string message)
             : base(message)
         {
