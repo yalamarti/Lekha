@@ -33,9 +33,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lekha.Utilities", "Lekha.Ut
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lekha.Utilities.Tests", "Lekha.Utilities.Tests\Lekha.Utilities.Tests.csproj", "{353A9BB4-CD3D-49B1-AA83-B10570E752A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lekha.Infrastructure.Tests", "..\Lekha.Infrastructure.Tests\Lekha.Infrastructure.Tests.csproj", "{44B20F24-380B-4D50-968A-62203370C76A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lekha.Uploader.Models", "Lekha.Uploader.Models\Lekha.Uploader.Models.csproj", "{43E9ABD6-E947-496D-A346-6058DEA1078F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lekha.Infrastructure.Tests", "Lekha.Infrastructure.Tests\Lekha.Infrastructure.Tests.csproj", "{CCE7C560-11BA-4B98-B381-53101E9E98C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,14 +99,14 @@ Global
 		{353A9BB4-CD3D-49B1-AA83-B10570E752A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{353A9BB4-CD3D-49B1-AA83-B10570E752A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{353A9BB4-CD3D-49B1-AA83-B10570E752A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{44B20F24-380B-4D50-968A-62203370C76A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44B20F24-380B-4D50-968A-62203370C76A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44B20F24-380B-4D50-968A-62203370C76A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44B20F24-380B-4D50-968A-62203370C76A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{43E9ABD6-E947-496D-A346-6058DEA1078F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43E9ABD6-E947-496D-A346-6058DEA1078F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43E9ABD6-E947-496D-A346-6058DEA1078F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43E9ABD6-E947-496D-A346-6058DEA1078F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCE7C560-11BA-4B98-B381-53101E9E98C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCE7C560-11BA-4B98-B381-53101E9E98C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCE7C560-11BA-4B98-B381-53101E9E98C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCE7C560-11BA-4B98-B381-53101E9E98C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

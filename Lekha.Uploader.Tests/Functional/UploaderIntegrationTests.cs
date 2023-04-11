@@ -12,6 +12,7 @@ using Xunit;
 
 namespace Lekha.Uploader.Tests.Functional
 {
+    [Trait("Tests", "Functional")]
     public class UploaderIntegrationTests : IDisposable
     {
         const string ApiEndPoint = "upload/123/Upload";
