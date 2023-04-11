@@ -21,5 +21,7 @@ jobs:
       run: dotnet restore Lekha.Uploader
     - name: Build
       run: dotnet build --no-restore Lekha.Uploader
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Test Lekha.Infrastructure
+      run: dotnet test --no-build --verbosity normal Lekha.Infrastructure
+    - name: Test Lekha.Uploader
+      run: dotnet test --no-build --verbosity normal Lekha.Uploader
