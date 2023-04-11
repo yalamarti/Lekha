@@ -22,6 +22,6 @@ jobs:
     - name: Build
       run: dotnet build --no-restore Lekha.Uploader
     - name: Test Lekha.Infrastructure
-      run: dotnet test --no-build --verbosity normal Lekha.Infrastructure.Tests
+      run: dotnet test --verbosity normal Lekha.Infrastructure.Tests
     - name: Test Lekha.Uploader
-      run: dotnet test Lekha.Uploader.Tests --filter Tests!=Functional --verbosity normal
+      run: dotnet test --filter Tests!=Functional --verbosity normal Lekha.Uploader.Tests 
