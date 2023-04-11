@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Lekha.DataParser": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

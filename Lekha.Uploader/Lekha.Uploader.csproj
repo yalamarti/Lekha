@@ -2,18 +2,34 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <LangVersion>default</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <UserSecretsId>3c0b30a3-f20d-4f35-8120-edabe4979673</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <!--<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>C:\Users\Srini Developer\Source\Repos\Lekha\Lekha.Uploader\Lekha.Uploader.xml</DocumentationFile>
-  </PropertyGroup>
-
+  </PropertyGroup>-->
+  
   <ItemGroup>
-    <PackageReference Include="Azure.Identity" Version="1.4.1" />
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.9.1" />
+    <PackageReference Include="Azure.Identity" Version="1.5.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.10.0" />
+    <PackageReference Include="Dapr.AspNetCore" Version="1.5.0" />
     <PackageReference Include="Lekha.Csv.Converter" Version="1.0.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.14" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.2.0-beta2.1" />
+    <PackageReference Include="OpenTelemetry.Exporter.Jaeger" Version="1.2.0-beta2.1" />
+    <PackageReference Include="OpenTelemetry.Exporter.Zipkin" Version="1.2.0-beta2.1" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc8" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc8" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc8" />
+
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+
   </ItemGroup>
 
   <ItemGroup>

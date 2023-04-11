@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  lekha.uploader:
+    image: ${DOCKER_REGISTRY-}lekhauploader
+    build:
+      context: .
+      dockerfile: Lekha.Uploader/Dockerfile
+    ports:
+      - "50080:50001"
+      

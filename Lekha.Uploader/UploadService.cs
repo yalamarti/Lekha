@@ -1,4 +1,5 @@
-﻿using Lekha.Infrastructure;
+﻿using Dapr.Client;
+using Lekha.Infrastructure;
 using Lekha.Uploader.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,10 @@ namespace Lekha.Uploader
         private readonly IBlobClientService<UploadDocument> blobClientService;
         private readonly IConfiguration configuration;
         private readonly ILogger<UploadService> logger;
-        public UploadService(UploaderApplicationContext appContext, IBlobClientService<UploadDocument> blobClientService, IConfiguration configuration, ILogger<UploadService> logger)
+        public UploadService(UploaderApplicationContext appContext, 
+            IBlobClientService<UploadDocument> blobClientService,
+            IConfiguration configuration, 
+            ILogger<UploadService> logger)
         {
             this.appContext = appContext;
             this.blobClientService = blobClientService;
