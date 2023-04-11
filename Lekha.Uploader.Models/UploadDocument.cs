@@ -1,5 +1,5 @@
-﻿namespace Lekha.Uploader.Model
-{
+﻿namespace Lekha.Uploader.Models
+{ 
     public class UploadDocument
     {
 

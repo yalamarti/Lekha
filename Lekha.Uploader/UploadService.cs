@@ -1,6 +1,6 @@
 ﻿using Dapr.Client;
 using Lekha.Infrastructure;
-using Lekha.Uploader.Model;
+using Lekha.Uploader.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

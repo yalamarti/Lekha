@@ -1,5 +1,5 @@
 using FluentAssertions;
-using Lekha.Uploader.Model;
+using Lekha.Uploader.Models;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Lekha.Uploader.Tests.Integration
+namespace Lekha.Uploader.Tests.Functional
 {
     public class UploaderIntegrationTests : IDisposable
     {

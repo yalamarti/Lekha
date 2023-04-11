@@ -3,11 +3,12 @@ using Lekha.Scheduer.DataAccess;
 using Lekha.Scheduler.BusinessLogic;
 using Lekha.Scheduler.BusinessLogic.Consumers;
 using MassTransit;
-using MassTransit.Definition;
+using MassTransit.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Lekha.Scheduler.FunctionApp
 {
@@ -25,7 +26,7 @@ namespace Lekha.Scheduler.FunctionApp
                     services.AddScoped<IAccountDataAccess, AccountDataAccess>();
                     services.AddScoped<ITaskGroupDefinitionDataAccess, TaskGroupDefinitionDataAccess>();
                     services.AddScoped<ITaskletDataAccess, TaskletDataAccess>();
-                    
+
                     services.AddScoped<AccountScheduler>();
                     services.AddScoped<TaskGroupScheduler>();
 
@@ -53,7 +54,26 @@ namespace Lekha.Scheduler.FunctionApp
                         });
                     });
 
-                    services.AddMassTransitHostedService(true);
+                    //
+                    // Reference: https://masstransit.io/support/upgrade
+                    // AddMassTransitHostedService(deprecated)
+                    // Previous versions of MassTransit required the use of the MassTransit.AspNetCore package to
+                    //   support registration of MassTransit's hosted service.
+                    //   This package is no longer required, and MassTransit will automatically add an IHostedService for MassTransit.
+                    //
+
+                    //   The host can be configured using IOptions configuration support, such as shown below:
+
+                    services.Configure<MassTransitHostOptions>(options =>
+                    {
+                        options.WaitUntilStarted = true;
+                        options.StartTimeout = TimeSpan.FromSeconds(30);
+                        options.StopTimeout = TimeSpan.FromMinutes(1);
+                    });
+
+                    // The.NET Generic Host has its own internal timers for shutdown, etc.that may also need to be adjusted.
+                    //   For MassTransit, configure the Generic Host options as shown.
+                    // services.Configure<HostOptions>(opts => opts.ShutdownTimeout = TimeSpan.FromMinutes(1));
 
                     var connectionString = ctx.Configuration.GetConnectionString("LekhaTables");
                     services.AddSingleton(new TableClient(connectionString, "TaskGroupExecution"));
