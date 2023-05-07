@@ -1,0 +1,21 @@
+﻿[
+  {
+    "id": "1",
+    "organizationId": "1",
+    "name": "Organization1Account1",
+    "title": "Organization 1 - Account 1"
+  },
+  {
+    "id": "2",
+    "organizationId": "1",
+    "name": "Organization1Account2",
+    "title": "Organization 1 - Account 2"
+  },
+  {
+    "id": "3",
+    "organizationId": "1",
+    "name": "Organization1Account3",
+    "title": "Organization 1 - Account 3"
+  }
+
+]

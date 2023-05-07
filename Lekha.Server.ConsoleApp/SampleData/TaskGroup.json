@@ -1,0 +1,23 @@
+﻿[
+  {
+    "id": "1",
+    "organizationId": "1",
+    "accountId": "1",
+    "name": "Organization1Account1TaskGroup1",
+    "description": "Organization 1 - Account 1 - TaskGroup 1"
+  },
+  {
+    "id": "2",
+    "organizationId": "1",
+    "accountId": "1",
+    "name": "Organization1Account2",
+    "description": "Organization 1 - Account 1 - TaskGroup 2"
+  },
+  {
+    "id": "3",
+    "organizationId": "1",
+    "accountId": "1",
+    "name": "Organization1Account3",
+    "description": "Organization 1 - Account 1 - TaskGroup 2"
+  }
+]
